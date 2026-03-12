@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel</title>
 
-    <!-- Tailwind CDN (NO VITE, NO NODE) -->
+    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Alpine -->
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 
 <body class="bg-gray-100">
@@ -37,10 +40,14 @@
 </div>
 
 <script>
-    function toggleSidebar() {
-        document.getElementById('sidebar')
-            .classList.toggle('-translate-x-full');
-    }
+function toggleSidebar() {
+    document.getElementById('sidebar')
+        .classList.toggle('-translate-x-full');
+}
 </script>
+
+{{-- 🔥 INI WAJIB ADA --}}
+@stack('scripts')
+
 </body>
 </html>

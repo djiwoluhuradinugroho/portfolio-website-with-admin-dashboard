@@ -14,7 +14,7 @@ class ArtworkController extends Controller
     public function index()
     {
         $artworks = Artwork::with('price')
-            ->latest()
+            ->orderBy('id','asc')
             ->get();
 
         return view('admin.artworks.index', compact('artworks'));
@@ -34,23 +34,24 @@ class ArtworkController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'style' => 'nullable|string|max:255', // ✅ tambah ini
             'commission_price_id' => 'required|exists:commission_prices,id',
-            'image' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'placement' => 'nullable|string', // ⭐ tambahan
+            'image' => 'required|image|mimes:jpg,jpeg,png,webp|max:10240',
         ]);
 
-        $imagePath = $request->file('image')->store('artworks', 'public');
+        $path = $request->file('image')->store('artworks', 'public');
 
         Artwork::create([
             'user_id' => Auth::id(),
             'title' => $request->title,
-            'description' => $request->description, // ✅ SIMPAN
+            'description' => $request->description,
             'commission_price_id' => $request->commission_price_id,
-            'image_path' => $imagePath,
+            'placement' => $request->placement, // ⭐ tambahan
+            'image_path' => $path,
         ]);
 
-        return redirect()
-            ->route('admin.artworks.index')
-            ->with('success', 'Artwork berhasil ditambahkan');
+        return redirect()->route('admin.artworks.index');
     }
 
     public function edit(Artwork $artwork)
@@ -59,50 +60,43 @@ class ArtworkController extends Controller
             ->orderBy('sort_order')
             ->get();
 
-        return view('admin.artworks.edit', compact('artwork', 'prices'));
+        return view('admin.artworks.edit', compact('artwork','prices'));
     }
 
     public function update(Request $request, Artwork $artwork)
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'commission_price_id' => 'required|exists:commission_prices,id',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+        $data = $request->validate([
+            'title' => 'required',
+            'description' => 'nullable',
+            'style' => 'nullable|string|max:255', // ✅ tambah ini
+            'placement' => 'nullable|string', // ⭐ tambahan
+            'image' => 'nullable|image'
         ]);
 
-        $data = [
-            'title' => $request->title,
-            'description' => $request->description, // ✅ FIX UTAMA
-            'commission_price_id' => $request->commission_price_id,
-        ];
-
+        // Kalau upload gambar baru
         if ($request->hasFile('image')) {
-            if ($artwork->image_path) {
+
+            if ($artwork->image_path && Storage::disk('public')->exists($artwork->image_path)) {
                 Storage::disk('public')->delete($artwork->image_path);
             }
 
-            $data['image_path'] = $request->file('image')
-                ->store('artworks', 'public');
+            $data['image_path'] = $request->file('image')->store('artworks', 'public');
         }
 
         $artwork->update($data);
 
-        return redirect()
-            ->route('admin.artworks.index')
-            ->with('success', 'Artwork berhasil diupdate');
+        return redirect()->route('admin.artworks.index')
+            ->with('success', 'Artwork updated successfully.');
     }
 
     public function destroy(Artwork $artwork)
     {
-        if ($artwork->image_path) {
+        if ($artwork->image_path && Storage::disk('public')->exists($artwork->image_path)) {
             Storage::disk('public')->delete($artwork->image_path);
         }
 
         $artwork->delete();
 
-        return redirect()
-            ->route('admin.artworks.index')
-            ->with('success', 'Artwork berhasil dihapus');
+        return redirect()->route('admin.artworks.index');
     }
 }

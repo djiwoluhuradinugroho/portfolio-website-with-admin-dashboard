@@ -1,73 +1,70 @@
 @extends('admin.layouts.app')
 
 @section('content')
-<div class="space-y-8 p-6 bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 min-h-screen">
+<div class="space-y-6 p-4 sm:p-6 min-h-screen" style="background:#f5f5f5;">
 
     {{-- WELCOME HEADER --}}
-    <div class="mb-8">
-        <h1 class="text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-    Welcome {{ auth()->user()->name }}!
-</h1>
-        <p class="text-gray-600 mt-2">Manage your artworks and commissions</p>
+    <div class="mb-4 sm:mb-8">
+        <h1 class="text-2xl sm:text-4xl font-bold tracking-tight" style="color:#0d0d0d;">
+            Welcome, {{ auth()->user()->name }}
+        </h1>
+        <p class="mt-2 text-sm sm:text-base" style="color:#999;">Manage your artworks and commissions</p>
     </div>
 
     {{-- STAT CARDS --}}
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
 
         {{-- TOTAL ARTWORKS --}}
-        <div class="group relative overflow-hidden bg-gradient-to-br from-purple-500 to-purple-700 p-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
-            <div class="absolute top-0 right-0 w-32 h-32 bg-white opacity-10 rounded-full -mr-16 -mt-16"></div>
-            <div class="absolute bottom-0 left-0 w-24 h-24 bg-white opacity-5 rounded-full -ml-12 -mb-12"></div>
+        <div class="relative overflow-hidden p-5 sm:p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1"
+             style="background:#0d0d0d;box-shadow:0 4px 24px rgba(0,0,0,0.12);">
+            <div class="absolute top-0 right-0 w-32 h-32 rounded-full -mr-16 -mt-16"
+                 style="background:rgba(255,255,255,0.04);"></div>
             <div class="relative z-10">
-                <div class="flex items-center justify-between mb-4">
-                    <div class="p-3 bg-white/20 rounded-xl backdrop-blur-sm">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                        </svg>
-                    </div>
+                <div class="p-3 rounded-xl inline-flex mb-4" style="background:rgba(255,255,255,0.08);">
+                    <svg class="w-5 h-5" style="color:rgba(255,255,255,0.7);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                    </svg>
                 </div>
-                <h3 class="text-white/80 text-sm font-medium mb-1">Total Artworks</h3>
-                <p class="text-4xl font-bold text-white">{{ $totalArtworks }}</p>
+                <p class="text-sm font-medium mb-1" style="color:rgba(255,255,255,0.45);">Total Artworks</p>
+                <p class="text-4xl font-bold" style="color:#fff;">{{ $totalArtworks }}</p>
             </div>
         </div>
 
         {{-- ACTIVE PRICE LIST --}}
-        <div class="group relative overflow-hidden bg-gradient-to-br from-pink-500 to-rose-700 p-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
-            <div class="absolute top-0 right-0 w-32 h-32 bg-white opacity-10 rounded-full -mr-16 -mt-16"></div>
-            <div class="absolute bottom-0 left-0 w-24 h-24 bg-white opacity-5 rounded-full -ml-12 -mb-12"></div>
+        <div class="relative overflow-hidden p-5 sm:p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1"
+             style="background:#fff;border:1px solid #e8e8e8;box-shadow:0 4px 24px rgba(0,0,0,0.06);">
+            <div class="absolute top-0 right-0 w-32 h-32 rounded-full -mr-16 -mt-16"
+                 style="background:rgba(0,0,0,0.02);"></div>
             <div class="relative z-10">
-                <div class="flex items-center justify-between mb-4">
-                    <div class="p-3 bg-white/20 rounded-xl backdrop-blur-sm">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                    </div>
+                <div class="p-3 rounded-xl inline-flex mb-4" style="background:#f5f5f5;">
+                    <svg class="w-5 h-5" style="color:#555;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
                 </div>
-                <h3 class="text-white/80 text-sm font-medium mb-1">Active Price List</h3>
-                <p class="text-4xl font-bold text-white">{{ $activePrices }}</p>
+                <p class="text-sm font-medium mb-1" style="color:#aaa;">Active Price List</p>
+                <p class="text-4xl font-bold" style="color:#0d0d0d;">{{ $activePrices }}</p>
             </div>
         </div>
 
         {{-- COMMISSION STATUS --}}
-        <div class="group relative overflow-hidden bg-gradient-to-br {{ $commissionStatus === 'open' ? 'from-emerald-500 to-teal-700' : 'from-gray-500 to-gray-700' }} p-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
-            <div class="absolute top-0 right-0 w-32 h-32 bg-white opacity-10 rounded-full -mr-16 -mt-16"></div>
-            <div class="absolute bottom-0 left-0 w-24 h-24 bg-white opacity-5 rounded-full -ml-12 -mb-12"></div>
+        <div class="relative overflow-hidden p-5 sm:p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1 sm:col-span-2 lg:col-span-1"
+             style="background:#fff;border:1px solid #e8e8e8;box-shadow:0 4px 24px rgba(0,0,0,0.06);">
             <div class="relative z-10">
-                <div class="flex items-center justify-between mb-4">
-                    <div class="p-3 bg-white/20 rounded-xl backdrop-blur-sm">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                    </div>
+                <div class="p-3 rounded-xl inline-flex mb-4" style="background:#f5f5f5;">
+                    <svg class="w-5 h-5" style="color:#555;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
                 </div>
-                <h3 class="text-white/80 text-sm font-medium mb-1">Commission Status</h3>
-                <p class="text-3xl font-bold text-white mb-4">
-                    {{ strtoupper($commissionStatus) }}
-                </p>
+                <p class="text-sm font-medium mb-1" style="color:#aaa;">Commission Status</p>
+                <div class="flex items-center gap-2 mb-4">
+                    <span class="w-2 h-2 rounded-full" style="background:{{ $commissionStatus === 'open' ? '#22c55e' : '#aaa' }};"></span>
+                    <p class="text-2xl font-bold" style="color:#0d0d0d;">{{ strtoupper($commissionStatus) }}</p>
+                </div>
                 <form method="POST" action="{{ route('admin.commission.toggle') }}">
                     @csrf
-                    <button class="w-full px-4 py-2.5 rounded-xl text-sm font-semibold text-white bg-white/20 hover:bg-white/30 backdrop-blur-sm transition-all duration-300 border border-white/30">
-                        {{ $commissionStatus === 'open' ? '🔒 Close Commission' : '🔓 Open Commission' }}
+                    <button class="w-full px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200"
+                            style="background:#0d0d0d;color:#fff;border:none;">
+                        {{ $commissionStatus === 'open' ? 'Close Commission' : 'Open Commission' }}
                     </button>
                 </form>
             </div>
@@ -76,67 +73,62 @@
     </div>
 
     {{-- ARTWORK PREVIEW --}}
-    <div class="bg-white/60 backdrop-blur-lg rounded-2xl p-6 shadow-xl">
-        <div class="flex justify-between items-center mb-6">
-            <h2 class="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+    <div class="rounded-2xl p-4 sm:p-6" style="background:#fff;border:1px solid #e8e8e8;box-shadow:0 4px 24px rgba(0,0,0,0.06);">
+        <div class="flex justify-between items-center mb-4 sm:mb-6">
+            <h2 class="text-lg sm:text-xl font-bold tracking-tight" style="color:#0d0d0d;">
                 Latest Artworks
             </h2>
             <a href="{{ route('admin.artworks.index') }}"
-               class="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl text-sm font-semibold hover:shadow-lg transition-all duration-300 hover:scale-105">
+               class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 hover:-translate-y-0.5 whitespace-nowrap"
+               style="background:#0d0d0d;color:#fff;">
                 View all →
             </a>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             @forelse ($artworks as $art)
-                <div class="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:scale-105">
+                <div class="group rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1"
+                     style="background:#fff;border:1px solid #ebebeb;box-shadow:0 2px 12px rgba(0,0,0,0.05);">
 
-                    {{-- IMAGE WITH OVERLAY --}}
+                    {{-- IMAGE --}}
                     <div class="relative overflow-hidden">
                         <img
                             src="{{ asset('storage/' . $art->image_path) }}"
-                            class="h-56 w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                            class="h-44 sm:h-52 w-full object-cover transition-transform duration-500 group-hover:scale-105"
                             alt="{{ $art->title }}"
                         >
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                             style="background:linear-gradient(to top, rgba(0,0,0,0.4), transparent);"></div>
                     </div>
 
-                    <div class="p-5 space-y-3">
+                    <div class="p-4 sm:p-5 space-y-3">
 
                         {{-- TITLE --}}
-                        <h3 class="font-bold text-lg text-gray-800 line-clamp-1">
+                        <h3 class="font-bold text-base line-clamp-1" style="color:#0d0d0d;">
                             {{ $art->title }}
                         </h3>
 
                         {{-- DESCRIPTION --}}
                         @if ($art->description)
-                            <p class="text-sm text-gray-600 line-clamp-2">
+                            <p class="text-sm line-clamp-2" style="color:#888;">
                                 {{ $art->description }}
                             </p>
                         @else
-                            <p class="text-sm text-gray-400 italic">
-                                No description
-                            </p>
+                            <p class="text-sm italic" style="color:#bbb;">No description</p>
                         @endif
 
                         {{-- PRICE TAG --}}
                         @if ($art->price)
-                            <div class="flex items-center gap-2 pt-2 border-t border-gray-100">
-                                <div class="flex-1 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg p-3">
-                                    <p class="text-xs text-gray-500 mb-1">Price Category</p>
-                                    <p class="font-semibold text-purple-700">
-                                        {{ $art->price->title }}
-                                    </p>
-                                    <p class="text-xs text-gray-500 mt-1">
-                                        {{ $art->price->price_label }}
-                                    </p>
+                            <div class="pt-2" style="border-top:1px solid #f0f0f0;">
+                                <div class="rounded-lg p-3" style="background:#f8f8f8;">
+                                    <p class="text-xs mb-1" style="color:#aaa;">Price Category</p>
+                                    <p class="font-semibold text-sm" style="color:#0d0d0d;">{{ $art->price->title }}</p>
+                                    <p class="text-xs mt-1" style="color:#888;">{{ $art->price->price_label }}</p>
                                 </div>
                             </div>
                         @else
-                            <div class="bg-red-50 border border-red-200 rounded-lg p-3">
-                                <p class="text-sm text-red-600 font-medium">
-                                    ⚠ No price linked
-                                </p>
+                            <div class="rounded-lg p-3" style="background:#fff5f5;border:1px solid #fecaca;">
+                                <p class="text-sm font-medium" style="color:#e74c3c;">No price linked</p>
                             </div>
                         @endif
 
@@ -144,12 +136,12 @@
                 </div>
             @empty
                 <div class="col-span-full text-center py-12">
-                    <div class="inline-flex items-center justify-center w-16 h-16 bg-gray-100 rounded-full mb-4">
-                        <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-full mb-4" style="background:#f5f5f5;">
+                        <svg class="w-8 h-8" style="color:#ccc;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                         </svg>
                     </div>
-                    <p class="text-gray-500">No artworks yet. Create your first masterpiece!</p>
+                    <p style="color:#aaa;">No artworks yet. Create your first masterpiece!</p>
                 </div>
             @endforelse
         </div>

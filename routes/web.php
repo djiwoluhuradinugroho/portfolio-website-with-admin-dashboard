@@ -1,22 +1,52 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| MODELS
+|--------------------------------------------------------------------------
+*/
+
+use App\Models\ImagePlacement;
+
+/*
+|--------------------------------------------------------------------------
+| PUBLIC CONTROLLERS
+|--------------------------------------------------------------------------
+*/
+
+use App\Http\Controllers\Public\ArtworkController as PublicArtworkController;
+use App\Http\Controllers\Public\PageController;
+
+/*
+|--------------------------------------------------------------------------
+| ADMIN CONTROLLERS
+|--------------------------------------------------------------------------
+*/
+
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ArtworkController;
 use App\Http\Controllers\Admin\CommissionPriceController;
 use App\Http\Controllers\Admin\ProfileController;
-use App\Http\Controllers\Public\ArtworkController as PublicArtworkController;
+use App\Http\Controllers\Admin\ImagePlacementController;
+use App\Http\Controllers\ChatbotController;
+
 
 /*
 |--------------------------------------------------------------------------
-| PUBLIC WEBSITE 🌐 (PERSONAL BRANDING)
+| PUBLIC WEBSITE 🌐
 |--------------------------------------------------------------------------
 */
 
 // Homepage
-Route::get('/', function () {
-    return view('public.home');
-})->name('home');
+Route::get('/', [PageController::class, 'home'])->name('home');
+
+// Static Pages (NOW DYNAMIC WITH CMS)
+Route::get('/about', [PageController::class, 'about'])->name('about');
+Route::get('/service', [PageController::class, 'service'])->name('service');
+Route::get('/portfolio', [PageController::class, 'portfolio'])->name('portfolio');
+Route::get('/how-it-works', [PageController::class, 'how'])->name('how');
 
 // Public Artworks
 Route::get('/artworks', [PublicArtworkController::class, 'index'])
@@ -25,54 +55,82 @@ Route::get('/artworks', [PublicArtworkController::class, 'index'])
 Route::get('/artworks/{artwork}', [PublicArtworkController::class, 'show'])
     ->name('artworks.show');
 
-Route::view('/about', 'public.about')->name('about');
-Route::view('/service', 'public.service')->name('service');
-Route::view('/portfolio', 'public.portfolio')->name('portfolio');
-Route::view('/how-it-works', 'public.how')->name('how');
-
-
+Route::post('/chat', [ChatbotController::class, 'handle']);
+Route::get('/test-chat', function () {
+    return app(ChatbotController::class)->handle(
+        request()->merge([
+            'message' => 'cara order'
+        ])
+    );
+});
 /*
 |--------------------------------------------------------------------------
-| REDIRECT DASHBOARD DEFAULT
+| REDIRECT DASHBOARD
 |--------------------------------------------------------------------------
 */
+
 Route::get('/dashboard', function () {
-    return redirect('/admin');
-});
+    return redirect()->route('admin.dashboard');
+})->name('dashboard');
+
 
 /*
 |--------------------------------------------------------------------------
 | ADMIN PANEL 🔐
 |--------------------------------------------------------------------------
 */
-Route::middleware(['auth', 'admin'])
+
+Route::middleware(['auth','admin'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
 
         // Dashboard
-        Route::get('/', [DashboardController::class, 'index'])
+        Route::get('/', [DashboardController::class,'index'])
             ->name('dashboard');
 
-        // Commission Toggle
-        Route::post('/commission-toggle', [DashboardController::class, 'toggleCommission'])
+        /*
+        |--------------------------------------------------------------------------
+        | IMAGE PLACEMENT CMS ⭐
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('/settings', [ImagePlacementController::class, 'index'])
+            ->name('settings.index');
+
+        Route::post('/settings/update-all', [ImagePlacementController::class, 'updateAll'])
+            ->name('settings.updateAll');
+
+        Route::get('/settings/create', [ImagePlacementController::class, 'create'])
+            ->name('settings.create');
+
+        Route::post('/settings/store', [ImagePlacementController::class, 'store'])
+            ->name('settings.store');
+
+        /*
+        |--------------------------------------------------------------------------
+        | OTHER ADMIN FEATURES
+        |--------------------------------------------------------------------------
+        */
+
+        Route::post('/commission-toggle',[DashboardController::class,'toggleCommission'])
             ->name('commission.toggle');
 
-        // Admin Profile
-        Route::get('/profile', [ProfileController::class, 'edit'])
+        Route::get('/profile',[ProfileController::class,'edit'])
             ->name('profile.edit');
 
-        Route::post('/profile', [ProfileController::class, 'update'])
+        Route::post('/profile',[ProfileController::class,'update'])
             ->name('profile.update');
 
-        // CRUD
         Route::resource('artworks', ArtworkController::class);
         Route::resource('prices', CommissionPriceController::class);
     });
+
 
 /*
 |--------------------------------------------------------------------------
 | AUTH ROUTES
 |--------------------------------------------------------------------------
 */
-require __DIR__ . '/auth.php';
+
+require __DIR__.'/auth.php';

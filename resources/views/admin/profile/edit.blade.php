@@ -24,7 +24,6 @@
             <p class="text-sm text-gray-500">{{ $user->email }}</p>
         </div>
     </div>
-
     {{-- UPDATE FORM --}}
     <form
         action="{{ route('admin.profile.update') }}"
@@ -70,7 +69,59 @@
                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
             @enderror
         </div>
+        {{-- CHANGE PASSWORD --}}
+<div class="pt-6 border-t mt-6 space-y-4">
 
+    <h3 class="text-lg font-semibold">Change Password</h3>
+
+    {{-- CURRENT PASSWORD --}}
+    <div>
+        <label class="block mb-1 text-sm font-medium">
+            Current Password
+        </label>
+
+        <input
+            type="password"
+            name="current_password"
+            class="block w-full border rounded-lg p-2"
+        >
+
+        @error('current_password')
+            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+        @enderror
+    </div>
+
+    {{-- NEW PASSWORD --}}
+    <div>
+        <label class="block mb-1 text-sm font-medium">
+            New Password
+        </label>
+
+        <input
+            type="password"
+            name="password"
+            class="block w-full border rounded-lg p-2"
+        >
+
+        @error('password')
+            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+        @enderror
+    </div>
+
+    {{-- CONFIRM PASSWORD --}}
+    <div>
+        <label class="block mb-1 text-sm font-medium">
+            Confirm Password
+        </label>
+
+        <input
+            type="password"
+            name="password_confirmation"
+            class="block w-full border rounded-lg p-2"
+        >
+    </div>
+
+</div>
         {{-- SUBMIT --}}
         <button
             type="submit"
